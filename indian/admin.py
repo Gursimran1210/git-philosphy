@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import India
+from .models import  Words
 
+admin.site.register(Words)
 
-admin.site.register(India)

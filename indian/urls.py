@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
 
     path('', views.indian, name='india'),
-    path('<int:indian_id>/',views.inde,name='inde'),
+    path('word/', views.words_list, name='word'),
 
 
 ]

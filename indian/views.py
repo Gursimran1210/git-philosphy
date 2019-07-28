@@ -1,16 +1,22 @@
-from django.shortcuts import render,get_object_or_404
-from .models import India
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from indian.serializers import WordsSerializer
+from .models import  Words
 
 # Create your views here.
 def indian(request):
     india = India.objects
     return render(request,'indian/indian.html',{'india':india})
 
-def inde(request,indian_id):
-    inde = get_object_or_404(India, pk=indian_id)
-    return render(request,'indian/inde.html',{'inde':inde})
 
-
-
-
-
+@api_view(['GET'])
+def words_list(request):
+    """
+    List all code snippets, or create a new snippet.
+    """
+    word = request.query_params.get("search")
+    if request.method == 'GET':
+        words_objs = Words.objects.filter(name__icontains=word).order_by("-frequency", "word_length")[:25]
+        serializer = WordsSerializer(words_objs, many=True)
+        return Response(serializer.data)
